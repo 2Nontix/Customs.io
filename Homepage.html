@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span id="username"></span>
+        <img src="https://via.placeholder.com/100" alt="Profilbild">
+    </div>
+
+    <script>
+        // Username aus dem LocalStorage holen
+        const username = localStorage.getItem('username');
+
+        // Username in das HTML Element mit der ID 'username' schreiben
+        document.getElementById('username').textContent = username;
+
+     // Automatische Erstellung von einem Profilbild
+     const Profilbild = document.querySelector('.header img');
+     Profilbild.src = 'https://robohash.org/' + username + '.png?size=100x100&set=set1';
+    </script>
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3650047341032774"
+     crossorigin="anonymous"></script>
+</body>
+</html>

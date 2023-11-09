@@ -1,0 +1,136 @@
+
+<html>
+<head>
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container, .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin: 20px; /* Abstand zwischen Login und Register Feld von 20 Pixeln */
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold; /* Login wird Fett geschrieben */
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    function login() { /* Login Feld */
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        axios.post('http://localhost:5000/login', { username, password })
+        .then(response => {
+            console.log('Received response from server:', response);
+            console.log('Response data:', response.data);
+         if (response.data == 'Willkommen auf der Homepage') {
+            localStorage.setItem('username', username); /* Speicherung des Usernames im Local Storage */
+            window.location.href = '/homepage.html'; /* Weiterleitung zur Homepage */
+         } else {
+            alert('invalid username or password');
+         }
+        })
+        .catch(error => {
+         console.error('Error:', error);
+      });
+}
+
+    function register() { /* Register Feld */
+    const username = document.getElementById('register-username').value;
+    const password = document.getElementById('register-password').value;
+
+    console.log(`Attempting to register with username: ${username} and password: ${password}`);
+
+    axios.post('http://localhost:5000/register', { username, password })
+    .then(response => {
+        console.log('Received response from server:', response);
+    })
+    .catch(error => {
+        console.error('Error registering:', error);
+    });
+    } 
+
+    fetch('/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    username: 'your-username',
+    password: 'your-password'
+  })
+}).then(response => {
+  if (response.redirected) {
+    window.location.href = response.url;
+  } else {
+    // Handle error
+  }
+});
+
+
+const express = require('express');
+const app = express();
+
+// Serve static files from the public directory
+app.use('/Webside', express.static('Webside'));
+
+app.listen(5000, () => {
+  console.log('Server listening on port 5000');
+});
+
+
+</script>
+</head>
+
+
+
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit" onclick="login()">Login</button>
+    </div>
+    <div class="login-container">
+        <h2>Register</h2>
+        <input type="text" id="register-username" placeholder="Username" required>
+        <input type="password" id="register-password" placeholder="Password" required>
+        <button type="submit" onclick="register()">Register</button>
+    </div>
+</body>
+</html>
